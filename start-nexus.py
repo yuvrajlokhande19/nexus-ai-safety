@@ -3,16 +3,19 @@
 Nexus AI Safety Platform - Reliable Launcher
 Starts both Backend (FastAPI) and Frontend (React Vite) services.
 Uses Python subprocess to avoid batch/powershell parsing errors.
+Auto-opens default browser to the dashboard.
 """
 import subprocess
 import sys
 import time
 import os
 import urllib.request
+import webbrowser
 
 PROJECT_DIR = r"C:\Users\lokha\nexus-ai-safety"
 BACKEND_DIR = os.path.join(PROJECT_DIR, "backend")
 FRONTEND_DIR = os.path.join(PROJECT_DIR, "frontend")
+
 
 def start_backend():
     """Start the FastAPI backend server."""
@@ -25,16 +28,17 @@ def start_backend():
         stderr=subprocess.PIPE
     )
     # Wait and verify it's running
-    for _ in range(15):
+    for _ in range(20):
         time.sleep(1)
         try:
             r = urllib.request.urlopen('http://localhost:8000/docs', timeout=3)
             print("  Backend API running on http://localhost:8000")
             return proc
-        except:
+        except Exception:
             continue
     print("  Backend starting... check console output")
     return proc
+
 
 def start_frontend():
     """Start the React Vite frontend dashboard."""
@@ -42,46 +46,53 @@ def start_frontend():
     node_exe = r"C:\Program Files\nodejs\node.exe"
     if not os.path.exists(node_exe):
         print("  Node.js not found at expected path")
-        print("  Frontend will be skipped - use browser at http://localhost:8000/docs")
+        print("  Frontend skipped - use browser at http://localhost:8000/docs")
         return None
-    
+
     proc = subprocess.Popen(
-        [node_exe, "vite", "--host", "--port", "3001"],
+        [node_exe, "vite", "--host", "--port", "3002"],
         cwd=FRONTEND_DIR,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
-    
+
     # Wait for Vite to be ready
-    for i in range(25):
+    for i in range(30):
         time.sleep(1)
         try:
-            r = urllib.request.urlopen('http://localhost:3001', timeout=2)
-            print("  Frontend Dashboard running on http://localhost:3001")
+            r = urllib.request.urlopen('http://localhost:3002', timeout=2)
+            print("  Frontend Dashboard running on http://localhost:3002")
             return proc
-        except:
+        except Exception:
             if i >= 15:
-                print("  Vite compiling... please wait...")
+                print(f"  Vite compiling... ({i+1}/30)")
             continue
-    
-    print("  Frontend still starting... check the console window")
+
+    print("  Frontend still starting... check console window")
     return proc
 
+
 def main():
+    print("=" * 60)
     print("NEXUS AI SAFETY RESEARCH PLATFORM")
+    print("=" * 60)
+    print()
     print("Initializing services...")
-    
+
     # Start backend
     backend_proc = start_backend()
     print()
-    
+
     # Start frontend
     frontend_proc = start_frontend()
     print()
-    
+
+    print("=" * 60)
     print("NEXUS PLATFORM OPERATIONAL")
+    print("=" * 60)
+    print()
     print("Service URLs:")
-    print("  Dashboard:      http://localhost:3001")
+    print("  Dashboard:      http://localhost:3002")
     print("  Backend API:    http://localhost:8000")
     print("  API Docs:       http://localhost:8000/docs")
     print()
@@ -94,9 +105,18 @@ def main():
     print("  Hybrid LLM: Local Gemma 4 + Gemini 3.6 Flash (4 keys)")
     print("  YAML Experiment Configs + PDF Reports")
     print()
+    print("The dashboard has been opened in your default browser.")
     print("Press CTRL+C to stop. Services continue in background.")
-    
-    # Keep alive
+    print()
+
+    # Open default browser to dashboard
+    try:
+        webbrowser.open('http://localhost:3002')
+        print("  Browser opened to dashboard URL")
+    except Exception:
+        print("  Could not auto-open browser - open manually at http://localhost:3002")
+
+    # Keep alive and monitor
     try:
         while True:
             time.sleep(5)
@@ -105,7 +125,7 @@ def main():
             except:
                 pass
             try:
-                r = urllib.request.urlopen('http://localhost:3001', timeout=2)
+                r = urllib.request.urlopen('http://localhost:3002', timeout=2)
             except:
                 pass
     except KeyboardInterrupt:
@@ -115,6 +135,7 @@ def main():
         if 'frontend_proc' in dir() and frontend_proc:
             frontend_proc.terminate()
         print("Done.")
+
 
 if __name__ == "__main__":
     main()
