@@ -81,7 +81,7 @@ echo ============================================================
 echo  ✅ NEXUS AI SAFETY PLATFORM IS NOW RUNNING!
 echo ============================================================
 echo.
-echo   📊 Dashboard:    http://localhost:3000
+echo   📊 Dashboard:    http://localhost:3001
 echo   🔧 Backend API:  http://localhost:8000
 echo   📚 API Docs:     http://localhost:8000/docs
 echo.
@@ -96,7 +96,7 @@ echo   • YAML Experiment Configs + PDF Reports
 echo   • GitHub Integration for Resource Tracking
 echo.
 echo   Opening dashboard in browser...
-start "" "http://localhost:3000"
+start "" "http://localhost:3001"
 
 echo.
 echo ============================================================

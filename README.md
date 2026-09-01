@@ -79,11 +79,11 @@ python start_frontend.py
 "C:\Program Files\nodejs\node.exe" vite --host --port 3000
 ```
 
-Frontend Dashboard: http://localhost:3000
+Frontend Dashboard: http://localhost:3001
 
 ### Running an Experiment
 
-1. Open http://localhost:8000/docs (or the frontend at http://localhost:3000)
+1. Open http://localhost:8000/docs (or the frontend at http://localhost:3001)
 2. Click "Create New Experiment" or load `experiments/deception_detection.yaml`
 3. Configure: name, topic, persona_count (3-15), rounds (1-50), local/Gemini split
 4. Click "Create & Start"
