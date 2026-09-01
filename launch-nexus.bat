@@ -47,14 +47,14 @@ start "Nexus Frontend" cmd /k "cd /d "%PROJECT_DIR%frontend" && npm run dev"
 timeout /t 5 /nobreak >NUL
 
 echo [4/4] Opening dashboard in browser...
-start "" "http://localhost:3002"
+start "" "http://localhost:5000"
 
 echo.
 echo ============================================================
 echo  ✅ NEXUS AI SAFETY PLATFORM IS NOW RUNNING!
 echo ============================================================
 echo.
-echo   📊 Dashboard:    http://localhost:3002
+echo   📊 Dashboard:    http://localhost:5000
 echo   🔧 Backend API:  http://localhost:8000
 echo   📚 API Docs:     http://localhost:8000/docs
 echo.

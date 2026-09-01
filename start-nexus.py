@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 """
-Nexus AI Safety Platform - Reliable Launcher
-Starts both Backend (FastAPI) and Frontend (React Vite) services.
-Uses Python subprocess to avoid batch/powershell parsing errors.
-Auto-opens default browser to the dashboard.
+Nexus AI Safety Platform - One-Click Launcher (WORKING VERSION)
+Starts Backend (FastAPI) + Frontend (React Vite) + Opens Browser.
+Uses port 5000 to avoid conflicts with port 3000/3001/3002.
+Avoids batch/powershell parsing errors entirely.
 """
 import subprocess
 import sys
@@ -18,8 +18,12 @@ FRONTEND_DIR = os.path.join(PROJECT_DIR, "frontend")
 
 
 def start_backend():
-    """Start the FastAPI backend server."""
-    print("Starting Backend API (FastAPI + Uvicorn)...")
+    """Start the FastAPI backend server on port 8000."""
+    print("=" * 60)
+    print("NEXUS AI SAFETY RESEARCH PLATFORM")
+    print("=" * 60)
+    print()
+    print("[1/4] Starting Backend API (FastAPI + Uvicorn)...")
     proc = subprocess.Popen(
         [sys.executable, "-m", "uvicorn", "app.main:app",
          "--host", "0.0.0.0", "--port", "8000", "--reload"],
@@ -28,7 +32,7 @@ def start_backend():
         stderr=subprocess.PIPE
     )
     # Wait and verify it's running
-    for _ in range(20):
+    for _ in range(25):
         time.sleep(1)
         try:
             r = urllib.request.urlopen('http://localhost:8000/docs', timeout=3)
@@ -41,8 +45,9 @@ def start_backend():
 
 
 def start_frontend():
-    """Start the React Vite frontend dashboard."""
-    print("Starting Frontend Dashboard (React + Vite)...")
+    """Start the React Vite frontend dashboard on port 5000."""
+    print()
+    print("[2/4] Starting Frontend Dashboard (React + Vite on port 5000)...")
     node_exe = r"C:\Program Files\nodejs\node.exe"
     if not os.path.exists(node_exe):
         print("  Node.js not found at expected path")
@@ -50,22 +55,22 @@ def start_frontend():
         return None
 
     proc = subprocess.Popen(
-        [node_exe, "vite", "--host", "--port", "3002"],
+        [node_exe, "vite", "--host", "--port", "5000"],
         cwd=FRONTEND_DIR,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
     )
 
     # Wait for Vite to be ready
-    for i in range(30):
+    for i in range(35):
         time.sleep(1)
         try:
-            r = urllib.request.urlopen('http://localhost:3002', timeout=2)
-            print("  Frontend Dashboard running on http://localhost:3002")
+            r = urllib.request.urlopen('http://localhost:5000', timeout=2)
+            print("  Frontend Dashboard running on http://localhost:5000")
             return proc
         except Exception:
-            if i >= 15:
-                print(f"  Vite compiling... ({i+1}/30)")
+            if i >= 20:
+                print(f"  Vite compiling... ({i+1}/35)")
             continue
 
     print("  Frontend still starting... check console window")
@@ -73,10 +78,7 @@ def start_frontend():
 
 
 def main():
-    print("=" * 60)
     print("NEXUS AI SAFETY RESEARCH PLATFORM")
-    print("=" * 60)
-    print()
     print("Initializing services...")
 
     # Start backend
@@ -87,12 +89,9 @@ def main():
     frontend_proc = start_frontend()
     print()
 
-    print("=" * 60)
     print("NEXUS PLATFORM OPERATIONAL")
-    print("=" * 60)
-    print()
     print("Service URLs:")
-    print("  Dashboard:      http://localhost:3002")
+    print("  Dashboard:      http://localhost:5000")
     print("  Backend API:    http://localhost:8000")
     print("  API Docs:       http://localhost:8000/docs")
     print()
@@ -105,16 +104,18 @@ def main():
     print("  Hybrid LLM: Local Gemma 4 + Gemini 3.6 Flash (4 keys)")
     print("  YAML Experiment Configs + PDF Reports")
     print()
-    print("The dashboard has been opened in your default browser.")
-    print("Press CTRL+C to stop. Services continue in background.")
-    print()
-
+    print("Opening dashboard in browser...")
+    
     # Open default browser to dashboard
     try:
-        webbrowser.open('http://localhost:3002')
-        print("  Browser opened to dashboard URL")
+        webbrowser.open('http://localhost:5000')
+        print("  Browser opened to http://localhost:5000")
     except Exception:
-        print("  Could not auto-open browser - open manually at http://localhost:3002")
+        print("  Could not auto-open browser - open manually at http://localhost:5000")
+
+    print()
+    print("Press CTRL+C to stop. Services continue in background.")
+    print()
 
     # Keep alive and monitor
     try:
@@ -125,7 +126,7 @@ def main():
             except:
                 pass
             try:
-                r = urllib.request.urlopen('http://localhost:3002', timeout=2)
+                r = urllib.request.urlopen('http://localhost:5000', timeout=2)
             except:
                 pass
     except KeyboardInterrupt:
