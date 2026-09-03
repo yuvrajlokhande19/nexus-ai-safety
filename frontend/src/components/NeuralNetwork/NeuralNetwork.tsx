@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback, useMemo } from 'react';
-import { useNetworkStore } from '../stores/networkStore';
-import { usePersonaStore } from '../stores/personaStore';
+import { useNetworkStore } from '@/stores/networkStore';
+import { usePersonaStore } from '@/stores/personaStore';
 import { NetworkNode, NetworkEdge, Gender, OCEANTraits } from '../types';
 import { clsx } from 'clsx';
 
@@ -11,7 +11,7 @@ interface NeuralNetworkProps {
   onNodeHover?: (node: NetworkNode | null) => void;
 }
 
-export function NeuralNetwork({ 
+export function NeuralNetworkCanvas({ 
   width = 800, 
   height = 600, 
   onNodeClick, 

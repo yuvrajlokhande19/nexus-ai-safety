@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { usePersonaStore } from '../stores/personaStore';
+import { usePersonaStore } from '@/stores/personaStore';
 import { PersonaSummary, OCEANTraits, Gender } from '../types';
 import { clsx } from 'clsx';
 import { 

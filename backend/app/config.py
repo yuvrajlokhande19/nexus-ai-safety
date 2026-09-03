@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     
     # Gemini API
     gemini_api_keys: List[str] = Field(default_factory=list)
-    gemini_model: str = "gemini-2.5-flash-lite"
+    gemini_model: str = "gemini-3.6-flash"
     gemini_temperature: float = 0.8
     gemini_max_tokens: int = 8192
     

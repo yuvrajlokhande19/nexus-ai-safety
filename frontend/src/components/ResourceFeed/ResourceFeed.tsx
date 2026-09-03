@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useExperimentStore } from '../stores/experimentStore';
-import { usePersonaStore } from '../stores/personaStore';
+import { useExperimentStore } from '@/stores/experimentStore';
+import { usePersonaStore } from '@/stores/personaStore';
 import { ResourceShare, Message } from '../types';
 import { clsx } from 'clsx';
 import {

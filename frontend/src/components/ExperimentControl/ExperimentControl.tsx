@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { useExperimentStore } from '../stores/experimentStore';
-import { usePersonaStore } from '../stores/personaStore';
+import { useExperimentStore } from '@/stores/experimentStore';
+import { usePersonaStore } from '@/stores/personaStore';
 import { ExperimentConfig, OCEANTraits, Gender } from '../types';
 import { clsx } from 'clsx';
 import {
-  Play, Pause, Stop, RotateCcw, Plus, Minus,
+  Play, Pause, Square, RotateCcw, Plus, Minus,
   Settings, Download, Upload, FileText,
   ChevronDown, ChevronUp, Brain, Users,
   Zap, Sparkles, TrendingUp
@@ -69,7 +69,7 @@ export function ExperimentControl({ onCreateExperiment }: ExperimentControlProps
     }
   };
 
-  const handleStop = () => {
+  const handleSquare = () => {
     if (currentExperiment) {
       updateExperimentStatus('completed');
     }
@@ -273,8 +273,8 @@ export function ExperimentControl({ onCreateExperiment }: ExperimentControlProps
               </button>
             )}
             {(exp.status === 'running' || exp.status === 'paused') && (
-              <button onClick={handleStop} className="btn-danger flex-1 flex items-center justify-center gap-2">
-                <Stop className="w-4 h-4" /> Stop
+              <button onClick={handleSquare} className="btn-danger flex-1 flex items-center justify-center gap-2">
+                <Square className="w-4 h-4" /> Square
               </button>
             )}
             {exp.status === 'completed' && (
